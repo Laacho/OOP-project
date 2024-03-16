@@ -33,11 +33,11 @@ public class XMLParser {
         this.children=new ArrayList<>();
     }
 
-    private void select(int id, String key, Map<String, String> attributes) {
+    private void select(String id, String key, Map<String, String> attributes) {
         //poluchava id=0 key=name
         if (!attributes.isEmpty()) {
             for (XML xml : entity) {
-                if (xml.getId() == id) {
+                if (xml.getId() .equals( id)) {
                     if (attributes.containsKey(key)) {
                         System.out.println(attributes.get(key));
                     }
@@ -46,21 +46,21 @@ public class XMLParser {
         }
     }
 
-    private void set(int id, String key, String value, Map<String, String> attributes) {
+    private void set(String id, String key, String value, Map<String, String> attributes) {
         if (!attributes.isEmpty()) {
             for (XML xml : entity) {
-                if (xml.getId() == id) {
+                if (xml.getId() .equals( id)) {
                     attributes.put(key, value);
                 }
             }
         }
     }
 
-    private Map<String, String> children(int id, Map<String, String> attributes) {
+    private Map<String, String> children(String id, Map<String, String> attributes) {
         Map<String, String> result = new LinkedHashMap<>();
         if (!attributes.isEmpty()) {
             for (XML xml : entity) {
-                if (xml.getId() == id) {
+                if (xml.getId() .equals( id)) {
                     result = xml.getAttributes();
                     return result;
                 }
@@ -69,11 +69,11 @@ public class XMLParser {
         return result;
     }
 
-    private  Map<String, String> child(int id,int n,Map<String, String> attributes){
+    private  Map<String, String> child(String id,int n,Map<String, String> attributes){
         Map<String, String> result=new HashMap<>();
         if (!attributes.isEmpty()) {
             for (XML xml : entity) {
-                if (xml.getId() == id) {
+                if (xml.getId() .equals( id)) {
 
                     int counter=0;
                     for(Map.Entry<String,String> kvp: attributes.entrySet()){
@@ -89,11 +89,11 @@ public class XMLParser {
         return result;
     }
 
-    private List<String> text(int id, Map<String, String> attributes) {
+    private List<String> text(String id, Map<String, String> attributes) {
         List<String> result=new ArrayList<>();
         if (!attributes.isEmpty()) {
             for (XML xml : entity) {
-                if (xml.getId() == id) {
+                if (xml.getId() .equals( id)) {
                     Map<String,String> data=xml.getAttributes();
                     for(Map.Entry<String,String> kvp: data.entrySet()){
                         result.add(kvp.getValue());
@@ -106,10 +106,10 @@ public class XMLParser {
     }
 
 
-    private void delete(int id,String key,Map<String,String> attributes){
+    private void delete(String id,String key,Map<String,String> attributes){
         if(!attributes.isEmpty()){
             for (XML xml : entity) {
-                if (xml.getId() == id) {
+                if (xml.getId() .equals( id)) {
                     xml.getAttributes().remove(key);
                     break;
                 }
@@ -117,9 +117,9 @@ public class XMLParser {
         }
     }
 
-    private void newChild(int id,Map<String,String> attributes){
+    private void newChild(String id,Map<String,String> attributes){
         for (XML value : entity) {
-            if (value.getId() == id) {
+            if (value.getId() .equals( id)) {
                 System.out.println("Id Already exists!");
                 return;
             }
@@ -128,7 +128,7 @@ public class XMLParser {
         this.entity.add(xml);
     }
 
-    private void xPath(int id,String xPath,Map<String,String> attributes){
+    private void xPath(String id,String xPath,Map<String,String> attributes){
 
 
 

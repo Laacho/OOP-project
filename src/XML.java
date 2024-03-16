@@ -2,23 +2,22 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class XML {
-    private int id;
+    private String id;
     private static String idName;
     private Map<String,String> attributes=new LinkedHashMap<>();
     //name john
 
 
-    public XML(int id, Map<String, String> attributes) {
+    public XML(String id, Map<String, String> attributes) {
         this.id = id;
         this.attributes = attributes;
     }
 
-
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
