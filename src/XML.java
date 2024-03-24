@@ -4,13 +4,13 @@ import java.util.Map;
 public class XML {
     private String id;
     private static String idName;
-    private Map<String,String> attributes=new LinkedHashMap<>();
+    private Map<String,String> attributes;
     //name john
 
 
-    public XML(String id, Map<String, String> attributes) {
+    public XML(String id) {
         this.id = id;
-        this.attributes = attributes;
+        this.attributes = new LinkedHashMap<>();
     }
 
     public String getId() {

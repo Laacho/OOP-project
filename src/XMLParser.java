@@ -1,5 +1,7 @@
 
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class XMLParser {
 
@@ -33,7 +35,7 @@ public class XMLParser {
         this.children=new ArrayList<>();
     }
 
-    private void select(String id, String key, Map<String, String> attributes) {
+    public void select(String id, String key, Map<String, String> attributes) {
         //poluchava id=0 key=name
         if (!attributes.isEmpty()) {
             for (XML xml : entity) {
@@ -46,7 +48,7 @@ public class XMLParser {
         }
     }
 
-    private void set(String id, String key, String value, Map<String, String> attributes) {
+    public void set(String id, String key, String value, Map<String, String> attributes) {
         if (!attributes.isEmpty()) {
             for (XML xml : entity) {
                 if (xml.getId() .equals( id)) {
@@ -56,7 +58,7 @@ public class XMLParser {
         }
     }
 
-    private Map<String, String> children(String id, Map<String, String> attributes) {
+    public Map<String, String> children(String id, Map<String, String> attributes) {
         Map<String, String> result = new LinkedHashMap<>();
         if (!attributes.isEmpty()) {
             for (XML xml : entity) {
@@ -69,7 +71,7 @@ public class XMLParser {
         return result;
     }
 
-    private  Map<String, String> child(String id,int n,Map<String, String> attributes){
+    public  Map<String, String> child(String id,int n,Map<String, String> attributes){
         Map<String, String> result=new HashMap<>();
         if (!attributes.isEmpty()) {
             for (XML xml : entity) {
@@ -89,7 +91,7 @@ public class XMLParser {
         return result;
     }
 
-    private List<String> text(String id, Map<String, String> attributes) {
+    public List<String> text(String id, Map<String, String> attributes) {
         List<String> result=new ArrayList<>();
         if (!attributes.isEmpty()) {
             for (XML xml : entity) {
@@ -106,7 +108,7 @@ public class XMLParser {
     }
 
 
-    private void delete(String id,String key,Map<String,String> attributes){
+    public void delete(String id,String key,Map<String,String> attributes){
         if(!attributes.isEmpty()){
             for (XML xml : entity) {
                 if (xml.getId() .equals( id)) {
@@ -117,26 +119,91 @@ public class XMLParser {
         }
     }
 
-    private void newChild(String id,Map<String,String> attributes){
+    public void newChild(String id,Map<String,String> attributes){
         for (XML value : entity) {
             if (value.getId() .equals( id)) {
                 System.out.println("Id Already exists!");
                 return;
             }
         }
-        XML xml=new XML(id,null);
+        XML xml=new XML(id);
         this.entity.add(xml);
     }
 
-    private void xPath(String id,String xPath,Map<String,String> attributes){
+    public List<String> xPath(String xPath, Map<String,String> attributes){
+
+        List<String> result=new ArrayList<>();
+        List<String> words=wordsSplitter(xPath);
+        if(xPath.contains("/")){
+            if(xPath.contains("[") && xPath.contains("]")){
+                //person/address[0]
+                Pattern pattern=Pattern.compile("[\\d+_]+");
+               Matcher  matcher= pattern.matcher(xPath);
+                 String index="-1";
+                 if(matcher.find()) {
+                      index = matcher.group();
+                 }
+                for(XML xml:entity){
+                    if(xml.getId().equals(index)){
+                        String temp=attributes.get(words.get(1));
+                        result.add(temp);
+                        return result;
+                    }
+                }
+            }
+            else{
+                //  person/address
+                String toSearchFor=xPath.split("/")[1];
+                for (XML value : entity) {
+                    if(value.getAttributes().containsKey(toSearchFor)){
+                        result.add(value.getAttributes().get(toSearchFor));
+                    }
+                }
+            }
+        }
+        else if(xPath.contains("@")){
+        //person(@id)
+            if(words.get(1).equalsIgnoreCase("id")){
+                for(XML xml:entity){
+                    result.add(xml.getId());
+                }
+            }
+            else{
+                for(XML xml:entity){
+                    if(xml.getAttributes().containsKey(words.get(1))){
+                        result.add(xml.getAttributes().get(words.get(1)));
+                    }
+                }
+            }
+        }
+        else if(xPath.contains("=")){
+        //person(address=”USA”)/name
+            String typeConstraint=words.get(1);//address
+            String constraint=words.get(2);//usa
+           for(XML xml:entity){
+               if(xml.getAttributes().containsKey(words.get(3)) &&
+                xml.getAttributes().get(typeConstraint).equalsIgnoreCase(constraint)){
+                   result.add(xml.getAttributes().get(words.get(3)));
+               }
+           }
+
+        }
 
 
-
+        return result;
+    }
+    private List<String> wordsSplitter(String xPath){
+        Pattern pattern=Pattern.compile("[a-zA-Z]+");
+        Matcher matcher= pattern.matcher(xPath);
+        List<String> words=new ArrayList<>();
+        while (matcher.find()) {
+            words.add(matcher.group());
+        }
+        return words;
     }
 
 
 
 
-    //5 1 4 5 1 8 3 5
 
 }
