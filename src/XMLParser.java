@@ -6,6 +6,7 @@ import java.util.regex.Pattern;
 public class XMLParser {
 
     private String header;
+    //root
     // nachalo na xml file
 
     private List<String> children;

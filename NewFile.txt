@@ -19,3 +19,4 @@
         	<name>Lachezar Radushev</name>
             <address>Kolhozen</address>
      </person>
+  </people>

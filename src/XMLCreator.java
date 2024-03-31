@@ -1,3 +1,5 @@
+import java.io.FileNotFoundException;
+
 public interface XMLCreator {
-    void creteXML();
+    void creteXML() throws FileNotFoundException;
 }
