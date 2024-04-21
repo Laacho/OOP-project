@@ -1,0 +1,22 @@
+<people>
+	<person id=”0”>
+		<name>John Smith</name>
+		<address>USA</address>
+	</person>
+	<person id=”1”>
+	        <name>Ivan Petrov</name>
+	    	<address>Bulgaria</address>
+	</person>
+	<person id=”2”>
+	    	<name>Diyan Dimitrov</name>
+       		<address>Bulgaria</address>
+    </person>
+    <person id=”3”>
+    		<name>Neli Kalcheva</name>
+        	<address>Olimpiada</address>
+    </person>
+    <person id=”4”>
+            	<name>Lachezar Radushev</name>
+            	<address>Kolhozen</address>
+     </person>
+</people>

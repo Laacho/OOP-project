@@ -8,11 +8,19 @@ public class XML {
     //name john
 
 
-    public XML(String id) {
-        this.id = id;
+
+
+    public XML() {
         this.attributes = new LinkedHashMap<>();
     }
 
+    public static String getIdName() {
+        return idName;
+    }
+
+    public static void setIdName(String idName) {
+        XML.idName = idName;
+    }
     public String getId() {
         return id;
     }

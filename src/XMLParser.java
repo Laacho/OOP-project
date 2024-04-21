@@ -30,11 +30,11 @@ public class XMLParser {
         return entity;
     }
 
-    public XMLParser(String header) {
-        this.header = header;
+    public XMLParser() {
         this.entity = new ArrayList<>();
         this.children=new ArrayList<>();
     }
+
 
     public void select(String id, String key, Map<String, String> attributes) {
         //poluchava id=0 key=name
@@ -127,7 +127,7 @@ public class XMLParser {
                 return;
             }
         }
-        XML xml=new XML(id);
+        XML xml=new XML();
         this.entity.add(xml);
     }
 

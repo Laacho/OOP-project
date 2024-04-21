@@ -9,7 +9,7 @@ import java.util.regex.Pattern;
 public class Verification {
 
 
-    public static Set<String> verify(String fileName){
+    public  Set<String> verify(String fileName){
         Set<String> ids=new LinkedHashSet<>();
         try (FileReader fileReader=new FileReader(fileName)){
             Scanner scanner=new Scanner(fileReader);
@@ -24,9 +24,7 @@ public class Verification {
                 result= matcher.group();//person
             }
 
-
             while (scanner.hasNext()){
-
 //                if(counter<attributes){
 //                  //bi trqbvalo da e red kudeto trqbva da proverim za id
 //                    if(line.contains("id")){

@@ -11,7 +11,7 @@ import java.util.regex.Pattern;
 
 public class Correction {
 
-    public static void correction(String oldFileName,String newFileName,Set<String> ids){
+    public void correction(String oldFileName,String newFileName,Set<String> ids){
         try(FileReader fileReader=new FileReader(oldFileName);
             FileWriter fileWriter=new FileWriter(newFileName)) {
 
@@ -52,4 +52,6 @@ public class Correction {
 
 
     }
+
+
 }
