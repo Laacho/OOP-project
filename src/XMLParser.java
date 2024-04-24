@@ -36,49 +36,51 @@ public class XMLParser {
     }
 
 
-    public void select(String id, String key, Map<String, String> attributes) {
+    public void select(String id, String key) {
         //poluchava id=0 key=name
-        if (!attributes.isEmpty()) {
+        if (!entity.isEmpty()) {
             for (XML xml : entity) {
-                if (xml.getId() .equals( id)) {
+                if (xml.getId().equals(id)) {
+                    Map<String, String> attributes = xml.getAttributes();
                     if (attributes.containsKey(key)) {
                         System.out.println(attributes.get(key));
+                        break;
                     }
                 }
             }
         }
     }
 
-    public void set(String id, String key, String value, Map<String, String> attributes) {
-        if (!attributes.isEmpty()) {
+    public void set(String id, String key, String value) {
+        if (!entity.isEmpty()) {
             for (XML xml : entity) {
-                if (xml.getId() .equals( id)) {
+                if (xml.getId().equals(id)) {
+                    Map<String, String> attributes = xml.getAttributes();
                     attributes.put(key, value);
+                    break;
                 }
             }
         }
     }
 
-    public Map<String, String> children(String id, Map<String, String> attributes) {
-        Map<String, String> result = new LinkedHashMap<>();
-        if (!attributes.isEmpty()) {
+    public Map<String, String> children(String id) {
+        if (!entity.isEmpty()) {
             for (XML xml : entity) {
-                if (xml.getId() .equals( id)) {
-                    result = xml.getAttributes();
-                    return result;
+                if (xml.getId().equals( id)) {
+                    return xml.getAttributes();
                 }
             }
         }
-        return result;
+        return null;
     }
 
-    public  Map<String, String> child(String id,int n,Map<String, String> attributes){
+    public  Map<String, String> child(String id,int n){
         Map<String, String> result=new HashMap<>();
-        if (!attributes.isEmpty()) {
+        if (!entity.isEmpty()) {
             for (XML xml : entity) {
-                if (xml.getId() .equals( id)) {
-
+                if (xml.getId().equals(id)) {
                     int counter=0;
+                    Map<String, String> attributes = xml.getAttributes();
                     for(Map.Entry<String,String> kvp: attributes.entrySet()){
                         if(counter==n){
                             result.put(kvp.getKey(), kvp.getValue());
@@ -92,11 +94,11 @@ public class XMLParser {
         return result;
     }
 
-    public List<String> text(String id, Map<String, String> attributes) {
+    public List<String> text(String id) {
         List<String> result=new ArrayList<>();
-        if (!attributes.isEmpty()) {
+        if (!entity.isEmpty()) {
             for (XML xml : entity) {
-                if (xml.getId() .equals( id)) {
+                if (xml.getId().equals(id)) {
                     Map<String,String> data=xml.getAttributes();
                     for(Map.Entry<String,String> kvp: data.entrySet()){
                         result.add(kvp.getValue());
@@ -109,10 +111,10 @@ public class XMLParser {
     }
 
 
-    public void delete(String id,String key,Map<String,String> attributes){
-        if(!attributes.isEmpty()){
+    public void delete(String id,String key){
+        if(!entity.isEmpty()){
             for (XML xml : entity) {
-                if (xml.getId() .equals( id)) {
+                if (xml.getId().equals(id)) {
                     xml.getAttributes().remove(key);
                     break;
                 }
@@ -120,21 +122,26 @@ public class XMLParser {
         }
     }
 
-    public void newChild(String id,Map<String,String> attributes){
+    public void newChild(String id){
         for (XML value : entity) {
-            if (value.getId() .equals( id)) {
+            if (value.getId().equals(id)) {
                 System.out.println("Id Already exists!");
                 return;
             }
         }
         XML xml=new XML();
+        xml.setId(id);
         this.entity.add(xml);
     }
 
-    public List<String> xPath(String xPath, Map<String,String> attributes){
+    public List<String> xPath(String id,String xPath){
 
         List<String> result=new ArrayList<>();
         List<String> words=wordsSplitter(xPath);
+        if(words.size()<2){
+            System.out.println("Not enough words");
+            return result;
+        }
         if(xPath.contains("/")){
             if(xPath.contains("[") && xPath.contains("]")){
                 //person/address[0]
@@ -146,15 +153,28 @@ public class XMLParser {
                  }
                 for(XML xml:entity){
                     if(xml.getId().equals(index)){
+                        Map<String, String> attributes = xml.getAttributes();
                         String temp=attributes.get(words.get(1));
                         result.add(temp);
                         return result;
                     }
                 }
             }
+            else if(xPath.contains("=")){
+                //person(address=”USA”)/name
+                String typeConstraint=words.get(1);//address
+                String constraint=words.get(2);//usa
+                for(XML xml:entity){
+                    if(xml.getAttributes().containsKey(words.get(3)) &&
+                            xml.getAttributes().get(typeConstraint).equalsIgnoreCase(constraint)){
+                        result.add(xml.getAttributes().get(words.get(3)));
+                    }
+                }
+
+            }
             else{
                 //  person/address
-                String toSearchFor=xPath.split("/")[1];
+                String toSearchFor=words.get(1);
                 for (XML value : entity) {
                     if(value.getAttributes().containsKey(toSearchFor)){
                         result.add(value.getAttributes().get(toSearchFor));
@@ -177,20 +197,6 @@ public class XMLParser {
                 }
             }
         }
-        else if(xPath.contains("=")){
-        //person(address=”USA”)/name
-            String typeConstraint=words.get(1);//address
-            String constraint=words.get(2);//usa
-           for(XML xml:entity){
-               if(xml.getAttributes().containsKey(words.get(3)) &&
-                xml.getAttributes().get(typeConstraint).equalsIgnoreCase(constraint)){
-                   result.add(xml.getAttributes().get(words.get(3)));
-               }
-           }
-
-        }
-
-
         return result;
     }
     private List<String> wordsSplitter(String xPath){

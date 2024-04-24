@@ -1,4 +1,5 @@
 import java.io.FileNotFoundException;
+import java.util.List;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -18,14 +19,12 @@ public class Main {
       //   String attributeName= correction.getAttributeName();
         //parsing xmlfile to classes
     //   XMLParser xmlParser=new XMLParser(root);
-
-
-
         XMLMaker xmlMaker=new XMLMaker();
-
-
-     xmlMaker.creteXML();
-     //   xmlMaker.creteXML();
+        XMLParser xmlParser = xmlMaker.creteXML();
+        xmlParser.select("0","name");
+        List<String> strings = xmlParser.xPath("0", "person/address");
+        System.out.println();
+        //   xmlMaker.creteXML();
 
 
 

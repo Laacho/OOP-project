@@ -1,8 +1,5 @@
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -12,19 +9,19 @@ public class XMLMaker implements XMLCreator {
     private String rootElem;
     private String atrName;
     private XMLParser xmlParser = new XMLParser();
-
+    private String fileName="XML.txt";
 
     @Override
-    public void creteXML() throws FileNotFoundException {
-        setRootElem("XML.txt", xmlParser);
-        setStaticName("XML.txt",xmlParser);
-        assignXMLattributes("XML.txt", xmlParser);
-        System.out.println();
+    public XMLParser creteXML()  {
+        setRootElem();
+        setStaticName();
+        assignXMLattributes();
+        return this.xmlParser;
 
     }
 
 
-    private void setRootElem(String fileName, XMLParser xmlParser) {
+    private void setRootElem( ) {
         try (FileReader fileReader = new FileReader(fileName)) {
             Scanner scanner = new Scanner(fileReader);
             String header = scanner.nextLine().trim().split("<")[1].split(">")[0];
@@ -34,7 +31,7 @@ public class XMLMaker implements XMLCreator {
             throw new RuntimeException(e);
         }
     }
-    private void setStaticName(String fileName,XMLParser xmlParser){
+    private void setStaticName(){
         try(FileReader fileReader = new FileReader(fileName)) {
             Scanner scanner = new Scanner(fileReader);
             scanner.nextLine();
@@ -56,7 +53,7 @@ public class XMLMaker implements XMLCreator {
     }
 
 
-    private void assignXMLattributes(String fileName, XMLParser xmlParser) {
+    private void assignXMLattributes() {
         try (FileReader fileReader = new FileReader(fileName)) {
             Scanner scanner = new Scanner(fileReader);
             scanner.nextLine();
@@ -70,22 +67,21 @@ public class XMLMaker implements XMLCreator {
                 }
                 while (true) {
                     if (s.contains("id")) {//person id='0'
-                       Pattern pattern = Pattern.compile("<(\\w+)\\s+id=”(\\d+)”>");
+                       Pattern pattern = Pattern.compile("<\\w+\\s+id=”(\\w+)”>");
                        Matcher matcher = pattern.matcher(s);
-
                         if (matcher.find()) {
-                            String id = matcher.group(2);
+                            String id = matcher.group(1);
                             xml.setId(id);
                         } else {
                             throw new IllegalArgumentException("No attribute found!");
                         }
                     } else {
-                        Pattern pattern = Pattern.compile("<(\\w+)>(.*?)</\\1>");
+                        Pattern pattern = Pattern.compile("<(\\w+)>(.*?)</\\1>"); //
                         Matcher  matcher = pattern.matcher(s);
                         if (matcher.find()) {
                             String atr = matcher.group(1);
                             String value = matcher.group(2);
-                            xml.getAttributes().put(atr, value);//slagame v mapa name->John Smith
+                            xml.getAttributes().put(atr,value);//slagame v mapa name->John Smith
                         }
                     }
                     s= scanner.nextLine().trim();
@@ -93,7 +89,7 @@ public class XMLMaker implements XMLCreator {
                         break;
                     }
                 }
-                xmlParser.getEntity().add(xml);
+                this.xmlParser.getEntity().add(xml);
             }
 
         } catch (IOException e) {
@@ -109,4 +105,7 @@ public class XMLMaker implements XMLCreator {
         return rootElem;
     }
 
+    public String getFileName() {
+        return fileName;
+    }
 }

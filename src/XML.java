@@ -37,6 +37,7 @@ public class XML {
     public String toString() {
         StringBuilder sb=new StringBuilder();
         sb.append("Id: ").append(this.id);
+        sb.append(System.lineSeparator());
         for (Map.Entry<String,String> kvp: attributes.entrySet()){
             sb.append(kvp.getKey()).append(": ").append(kvp.getValue()).append("\n");
         }
