@@ -19,11 +19,11 @@
 	        <name>Ivan Petrov</name>
 	    	<address>Bulgaria</address>
 	</person>
-	<person id=”1”>
+	<person id=”2”>
 	    	<name>Diyan Dimitrov</name>
        		<address>Bulgaria</address>
     </person>
-    <person >
+    <person id=”3”>
     		<name>Neli Kalcheva</name>
         	<address>Olimpiada</address>
     </person>

@@ -1,35 +1,16 @@
-import java.io.FileNotFoundException;
-import java.util.List;
-import java.util.Set;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import bg.tu_varna.sit.a4.f22621679.engine.Engine;
+import bg.tu_varna.sit.a4.f22621679.engine.EngineImpl;
+
+import java.util.*;
 
 public class Main {
-    public static void main(String[] args) throws FileNotFoundException {
-
-      //  Set<String> verify = Verification.verify(fileName);
-     //   Correction.correction(fileName,"Temp.txt",verify);
-   // String fileName="XML.txt";
-        //reading and verifying file
-      //  Verification verification=new Verification();
-       // Set<String> verify = verification.verify(fileName);
-     ///   String root=verification.getRootElem();
-       // Correction correction = new Correction();
-       //  correction.correction(fileName,"Temp.txt",verify);
-      //   String attributeName= correction.getAttributeName();
-        //parsing xmlfile to classes
-    //   XMLParser xmlParser=new XMLParser(root);
-        XMLMaker xmlMaker=new XMLMaker();
-        XMLParser xmlParser = xmlMaker.creteXML();
-        xmlParser.select("0","name");
-        List<String> strings = xmlParser.xPath("0", "person/address");
-        System.out.println();
-        //   xmlMaker.creteXML();
-
-
-
-
-
-
+    /***
+     The program entry point.
+     * Create an Engine object using an EngineImpl implementation with a Scanner for user input and starts the engine.
+     * @param args Command-line arguments passed to the program
+     */
+    public static void main(String[] args) {
+        Engine engine=new EngineImpl(new Scanner(System.in));
+        engine.run();
     }
 }

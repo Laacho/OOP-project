@@ -1,5 +1,5 @@
 <people  xmlns="http://www.example.com/people">
-	<person id="0">
+<person id="0">
 		<name xmlns:na="http://www.example.com/name">John Smith</name>
 		<address xmlns:adr="http://www.example.com/address">
 		   <adr:street>
@@ -15,7 +15,7 @@
            <adr:zip>01701</zip>
 		 </address>
 	</person>
-	<person id="2">
+<person id="2">
 	        <name>Ivan Petrov</name>
 	    	<address>
             	 <street>
@@ -31,7 +31,7 @@
                  <zip>2020</zip>
            </address>
 	</person>
-	<person id="2">
+<person id="2_1">
 	    	<name>Diyan Dimitrov</name>
        		<address>
                <street>
@@ -47,7 +47,7 @@
                <zip>2023</zip>
             </address>
     </person>
-    <person >
+<person id="2_2">
     		<name>Neli Kalcheva</name>
         	<address>
                <street>
@@ -63,7 +63,7 @@
                   <zip>2020</zip>
            </address>
     </person>
-    <person id="4">
+<person id="4">
             	<name>Lachezar Radushev</name>
             	<address>
                   <street>
